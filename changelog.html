@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelogs - Overlord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="s.css">
+<link rel="stylesheet" href="changelog.css">
+</head>
+<body>
+<div id="navbar"></div>
+<div class="page active" id="page-changelog">
+<div class="changelog-page">
+<div class="changelog-header">
+<a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+<div class="changelog-tag"><i class="fa-solid fa-code-branch"></i> Changelogs</div>
+<h1>Version History & <span class="gradient-text">Updates</span></h1>
+<p>Track all releases, patches, and improvements across platforms.</p>
+</div>
+
+<div class="os-selector">
+<button class="os-btn active" onclick="switchOS('windows')" data-os="windows">
+<i class="fa-brands fa-windows"></i> Windows
+</button>
+<button class="os-btn" onclick="switchOS('android')" data-os="android">
+<i class="fa-brands fa-android"></i> Android
+</button>
+<button class="os-btn" onclick="switchOS('spoofer')" data-os="spoofer">
+<i class="fa-solid fa-bolt"></i> Spoofer
+</button>
+<button class="os-btn" onclick="switchOS('ios')" data-os="ios">
+<i class="fa-brands fa-apple"></i> iOS
+</button>
+</div>
+
+<div class="changelog-timeline" id="changelogTimeline">
+</div>
+
+<div class="changelog-discord-section">
+<div class="discord-glow"></div>
+<div class="discord-content">
+<div class="discord-icon"><i class="fa-brands fa-discord"></i></div>
+<h2>Need older versions?</h2>
+<p>Join our Discord server to request previous releases or get support with version compatibility.</p>
+<a href="https://discord.gg/GuwqncbChx" target="_blank" class="discord-btn"><i class="fa-brands fa-discord"></i> Join Discord</a>
+</div>
+</div>
+</div>
+</div>
+
+<footer class="site-footer">
+<span class="footer-text"><strong>Overlord</strong></span>
+<div class="footer-dot"></div>
+<span class="footer-text">&copy; 2026 All rights reserved.</span>
+</footer>
+
+<script src="changelog.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Overlord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="s.css">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <img src="avatar_v1.webp" alt="Overlord" class="nav-logo-img" style="border-radius:6px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback"><i class="fa-solid fa-spider"></i></div>
+    Overlord
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="faq.html"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+    <a href="changelog.html"><i class="fa-solid fa-code-branch"></i> Changelog</a>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="auth-toast-container" id="toastContainer"></div>
+
+<!-- Page -->
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-card-inner">
+
+      <!-- Brand -->
+      <div class="auth-brand">
+        <div class="auth-brand-icon">
+          <i class="fa-solid fa-crown"></i>
+        </div>
+        <h2>Overlord</h2>
+        <p>Your premium exploit platform</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">
+          <i class="fa-solid fa-right-to-bracket" style="margin-right:5px;font-size:.8rem;"></i> Sign In
+        </button>
+        <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">
+          <i class="fa-solid fa-user-plus" style="margin-right:5px;font-size:.8rem;"></i> Register
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="auth-body">
+
+        <!-- LOGIN FORM -->
+        <form class="auth-form active" id="formLogin" onsubmit="handleLogin(event)">
+          <div class="auth-field">
+            <label>Username or Email</label>
+            <div class="auth-input-wrap">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input class="auth-input" id="loginUser" type="text" placeholder="Enter your username or email" autocomplete="username">
+            </div>
+            <span class="auth-field-error" id="loginUserErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></span>
+          </div>
+
+          <div class="auth-field">
+            <label>Password</label>
+            <div class="auth-input-wrap">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input class="auth-input" id="loginPass" type="password" placeholder="Enter your password" autocomplete="current-password">
+              <button type="button" class="input-toggle" onclick="togglePw('loginPass',this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <span class="auth-field-error" id="loginPassErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></span>
+          </div>
+
+          <div class="auth-row">
+            <label class="auth-check-wrap">
+              <input type="checkbox" id="rememberMe"> Remember me
+            </label>
+            <a href="#" class="auth-forgot" onclick="forgotPassword(event)">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="auth-submit" id="loginBtn">
+            <span class="shimmer"></span>
+            <div class="btn-spinner"></div>
+            <span class="btn-text"><i class="fa-solid fa-right-to-bracket"></i> Sign In</span>
+          </button>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form class="auth-form" id="formRegister" onsubmit="handleRegister(event)">
+          <div class="auth-field">
+            <label>Username</label>
+            <div class="auth-input-wrap">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input class="auth-input" id="regUser" type="text" placeholder="Choose a username" autocomplete="username">
+            </div>
+            <span class="auth-field-error" id="regUserErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></span>
+          </div>
+
+          <div class="auth-field">
+            <label>Email</label>
+            <div class="auth-input-wrap">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input class="auth-input" id="regEmail" type="text" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <span class="auth-field-error" id="regEmailErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></span>
+          </div>
+
+          <div class="auth-field">
+            <label>Password</label>
+            <div class="auth-input-wrap">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input class="auth-input" id="regPass" type="password" placeholder="Create a strong password" oninput="checkStrength(this.value)" autocomplete="new-password">
+              <button type="button" class="input-toggle" onclick="togglePw('regPass',this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <span class="auth-field-error" id="regPassErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></span>
+            <div class="pw-strength">
+              <div class="pw-bars">
+                <div class="pw-bar" id="bar1"></div>
+                <div class="pw-bar" id="bar2"></div>
+                <div class="pw-bar" id="bar3"></div>
+              </div>
+              <div class="pw-label" id="pwLabel"></div>
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label>Confirm Password</label>
+            <div class="auth-input-wrap">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input class="auth-input" id="regPassConf" type="password" placeholder="Repeat your password" autocomplete="new-password">
+              <button type="button" class="input-toggle" onclick="togglePw('regPassConf',this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+            <span class="auth-field-error" id="regPassConfErr"><i class="fa-solid fa-circle-exclamation"></i> <span></span></span>
+          </div>
+
+          <p class="auth-terms">
+            By registering you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          </p>
+
+          <button type="submit" class="auth-submit" id="registerBtn">
+            <span class="shimmer"></span>
+            <div class="btn-spinner"></div>
+            <span class="btn-text"><i class="fa-solid fa-user-plus"></i> Create Account</span>
+          </button>
+        </form>
+
+        <!-- LOGGED IN DASHBOARD -->
+        <div class="auth-dashboard" id="dashView">
+          <div class="dash-avatar">
+            <i class="fa-solid fa-user"></i>
+            <div class="dash-online-dot"></div>
+          </div>
+          <div>
+            <div class="dash-name" id="dashName">—</div>
+            <div class="dash-email" id="dashEmail">—</div>
+          </div>
+          <div class="dash-badge"><i class="fa-solid fa-circle-check"></i> Authenticated</div>
+          <div class="dash-info-grid">
+            <div class="dash-info-item">
+              <div class="dash-info-label">Member since</div>
+              <div class="dash-info-value" id="dashSince">—</div>
+            </div>
+            <div class="dash-info-item">
+              <div class="dash-info-label">Plan</div>
+              <div class="dash-info-value" id="dashPlan">Free</div>
+            </div>
+          </div>
+          <button class="dash-logout" onclick="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+          </button>
+        </div>
+
+      </div><!-- /auth-body -->
+    </div><!-- /auth-card-inner -->
+  </div><!-- /auth-card -->
+</div><!-- /auth-page -->
+
+<footer class="site-footer">
+  <span class="footer-text"><strong>Overlord</strong></span>
+  <div class="footer-dot"></div>
+  <span class="footer-text">&copy; 2026 All rights reserved.</span>
+</footer>
+
+<script src="login.js"></script>
+</body>
+</html>
