@@ -1,7 +1,7 @@
 const faqData = [
     {
         tags: 'crash won\'t start launch open startup',
-        question: 'FluxusZ won\'t launch or crashes on startup',
+        question: 'Overlord won\'t launch or crashes on startup',
         answer: `This is almost always caused by a missing runtime. Install all Required Downloads, especially <strong>.NET 9.0</strong> and the <strong>Visual C++ Redistributable</strong>. After installing, restart your PC and try again. Try right-clicking FluxusZ.exe and selecting <strong>Run as administrator</strong> â€” this resolves most launch failures.`,
         tip: 'Always restart your PC after installing runtimes for changes to take effect.'
     },
@@ -19,7 +19,7 @@ const faqData = [
 },
 {
     tags: 'inject attach not working roblox game failed',
-    question: 'FluxusZ isn\'t injecting or attaching',
+    question: 'Overlord isn\'t injecting or attaching',
     answer: `Make sure the game is <strong>fully loaded</strong> before pressing inject. If it still fails: (1) Restart both apps, (2) Run as Administrator, (3) Temporarily disable antivirus, (4) Ensure Windows is up to date, (5) Reinstall from the Download page.`,
     tip: 'Wait for the chat to appear and game assets to fully load before attempting to inject.'
 },
@@ -37,7 +37,7 @@ const faqData = [
 },
 {
     tags: 'update roblox outdated stopped working new version patch',
-    question: 'FluxusZ stopped working after a Roblox update',
+    question: 'Overlord stopped working after a Roblox update',
     answer: `Roblox updates can temporarily break executors. We push patches as fast as possible. Check our Discord for current status and download the latest build from the Download page.`,
     tip: 'Join our Discord to get notified instantly when patches are released.'
 },
