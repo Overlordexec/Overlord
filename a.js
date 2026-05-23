@@ -227,10 +227,10 @@ document.querySelectorAll('.dl-card').forEach(rHover);
 
 fetch('a3s532123421.json').then(function(r){return r.json();}).then(function(data){buildDl(data);}).catch(function(){
 buildDl({products:[
-{id:'windows',name:'Windows',icon:'fa-brands fa-windows',status:'Online',statusText:'Comming Soon',downloadLink:'#',available:false},
-{id:'android',name:'Android',icon:'fa-brands fa-android',status:'Offline',statusText:'Comming Soon',downloadLink:'#',available:false},
-{id:'spoofer',name:'Spoofer',icon:'fa-solid fa-bolt',status:'Online',statusText:'Comming Soon',downloadLink:'#',available:false,type:'spoofer'},
-{id:'ios',name:'iOS',icon:'fa-brands fa-apple',status:'Offline',statusText:'Comming Soon',downloadLink:'#',available:false}
+{id:'windows',name:'Windows',icon:'fa-brands fa-windows',status:'Online',statusText:'working and ready to download',downloadLink:'#',available:true},
+{id:'android',name:'Android',icon:'fa-brands fa-android',status:'Offline',statusText:'currently unavailable. Check back soon',downloadLink:'#',available:false},
+{id:'spoofer',name:'Spoofer',icon:'fa-solid fa-bolt',status:'Online',statusText:'lightning-fast hardware spoofer',downloadLink:'#',available:true,type:'spoofer'},
+{id:'ios',name:'iOS',icon:'fa-brands fa-apple',status:'Offline',statusText:'not yet supported on this platform',downloadLink:'#',available:false}
 ]});
 });
 
