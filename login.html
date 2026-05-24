@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Overlord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="s.css">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <img src="avatar_v1.webp" alt="Overlord" class="nav-logo-img" style="border-radius:6px;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="nav-logo-fallback"><i class="fa-solid fa-spider"></i></div>
+    Overlord
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="faq.html"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+    <a href="changelog.html"><i class="fa-solid fa-code-branch"></i> Changelog</a>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="ovl-toast-container" id="toastContainer"></div>
+
+<!-- ═══════════════════════════════════════════ AUTH VIEW ═══ -->
+<div class="ovl-view" id="viewAuth">
+  <div class="ovl-bg">
+    <div class="ovl-orb ovl-orb-1"></div>
+    <div class="ovl-orb ovl-orb-2"></div>
+    <div class="ovl-orb ovl-orb-3"></div>
+    <div class="ovl-grid"></div>
+  </div>
+
+  <div class="auth-wrap">
+    <div class="auth-card" id="authCard">
+
+      <!-- Brand -->
+      <div class="auth-brand">
+        <div class="auth-brand-glow"></div>
+        <div class="auth-brand-icon">
+          <i class="fa-solid fa-crown"></i>
+          <div class="brand-icon-ring"></div>
+        </div>
+        <h2>Overlord</h2>
+        <p>Premium exploit platform</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+        <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Register</button>
+        <div class="auth-tab-indicator" id="tabIndicator"></div>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form active" id="formLogin" onsubmit="handleLogin(event)" novalidate>
+        <div class="auth-field">
+          <label class="auth-label">Username or Email</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-user auth-input-icon"></i>
+            <input class="auth-input" id="loginUser" type="text" placeholder="Enter username or email" autocomplete="username">
+          </div>
+          <div class="auth-field-error" id="loginUserErr"></div>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-lock auth-input-icon"></i>
+            <input class="auth-input" id="loginPass" type="password" placeholder="Enter your password" autocomplete="current-password">
+            <button type="button" class="auth-pw-toggle" onclick="togglePw('loginPass',this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <div class="auth-field-error" id="loginPassErr"></div>
+        </div>
+
+        <div class="auth-row">
+          <label class="auth-check-wrap">
+            <input type="checkbox" id="rememberMe" class="auth-checkbox">
+            <span class="auth-checkbox-custom"></span>
+            <span class="auth-check-label">Remember me</span>
+          </label>
+          <button type="button" class="auth-forgot-btn" onclick="forgotPassword()">Forgot password?</button>
+        </div>
+
+        <button type="submit" class="auth-submit" id="loginBtn">
+          <span class="auth-submit-bg"></span>
+          <span class="auth-submit-shine"></span>
+          <span class="auth-submit-content">
+            <span class="auth-btn-loader"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+            <span class="auth-btn-text"><i class="fa-solid fa-right-to-bracket"></i> Sign In</span>
+          </span>
+        </button>
+
+        <p class="auth-switch-hint">Don't have an account? <button type="button" class="auth-switch-link" onclick="switchTab('register')">Create one</button></p>
+      </form>
+
+      <!-- Register Form -->
+      <form class="auth-form" id="formRegister" onsubmit="handleRegister(event)" novalidate>
+        <div class="auth-field">
+          <label class="auth-label">Username</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-at auth-input-icon"></i>
+            <input class="auth-input" id="regUser" type="text" placeholder="Choose a username" autocomplete="username">
+          </div>
+          <div class="auth-field-error" id="regUserErr"></div>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">Email</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-envelope auth-input-icon"></i>
+            <input class="auth-input" id="regEmail" type="text" placeholder="your@email.com" autocomplete="email">
+          </div>
+          <div class="auth-field-error" id="regEmailErr"></div>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-lock auth-input-icon"></i>
+            <input class="auth-input" id="regPass" type="password" placeholder="Create a strong password" oninput="checkStrength(this.value)" autocomplete="new-password">
+            <button type="button" class="auth-pw-toggle" onclick="togglePw('regPass',this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <div class="auth-field-error" id="regPassErr"></div>
+          <div class="pw-strength-wrap">
+            <div class="pw-bars">
+              <div class="pw-bar" id="pwBar1"></div>
+              <div class="pw-bar" id="pwBar2"></div>
+              <div class="pw-bar" id="pwBar3"></div>
+              <div class="pw-bar" id="pwBar4"></div>
+            </div>
+            <span class="pw-label" id="pwLabel"></span>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label">Confirm Password</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-lock auth-input-icon"></i>
+            <input class="auth-input" id="regPassConf" type="password" placeholder="Repeat your password" autocomplete="new-password">
+            <button type="button" class="auth-pw-toggle" onclick="togglePw('regPassConf',this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <div class="auth-field-error" id="regPassConfErr"></div>
+        </div>
+
+        <p class="auth-terms">By registering you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+
+        <button type="submit" class="auth-submit" id="registerBtn">
+          <span class="auth-submit-bg"></span>
+          <span class="auth-submit-shine"></span>
+          <span class="auth-submit-content">
+            <span class="auth-btn-loader"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+            <span class="auth-btn-text"><i class="fa-solid fa-user-plus"></i> Create Account</span>
+          </span>
+        </button>
+
+        <p class="auth-switch-hint">Already have an account? <button type="button" class="auth-switch-link" onclick="switchTab('login')">Sign in</button></p>
+      </form>
+
+    </div><!-- /auth-card -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ PROFILE VIEW ═══ -->
+<div class="ovl-view" id="viewProfile" style="display:none;">
+  <!-- Banner -->
+  <div class="prof-banner" id="profBanner">
+    <div class="prof-banner-overlay"></div>
+    <label class="prof-banner-edit" for="bannerUpload" title="Change banner">
+      <i class="fa-solid fa-camera"></i>
+      <span>Change Banner</span>
+    </label>
+    <input type="file" id="bannerUpload" accept="image/*" style="display:none" onchange="uploadBanner(this)">
+  </div>
+
+  <div class="prof-container">
+    <!-- Avatar -->
+    <div class="prof-avatar-wrap">
+      <div class="prof-avatar" id="profAvatar">
+        <i class="fa-solid fa-user prof-avatar-icon" id="profAvatarIcon"></i>
+        <img id="profAvatarImg" class="prof-avatar-img" src="" alt="" style="display:none">
+        <label class="prof-avatar-edit" for="avatarUpload" title="Change avatar">
+          <i class="fa-solid fa-camera"></i>
+        </label>
+        <input type="file" id="avatarUpload" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
+      </div>
+      <div class="prof-avatar-badge" id="profPlanBadge">Free</div>
+    </div>
+
+    <!-- Profile header info -->
+    <div class="prof-header">
+      <div class="prof-identity">
+        <div class="prof-name-row">
+          <h1 class="prof-display-name" id="profDisplayName">—</h1>
+          <button class="prof-edit-name-btn" id="editNameBtn" onclick="toggleNameEdit()" title="Edit display name">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+        </div>
+        <div class="prof-name-edit-wrap" id="nameEditWrap" style="display:none">
+          <input class="prof-name-input" id="nameEditInput" type="text" maxlength="30" placeholder="Display name">
+          <button class="prof-name-save" onclick="saveDisplayName()"><i class="fa-solid fa-check"></i></button>
+          <button class="prof-name-cancel" onclick="cancelNameEdit()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p class="prof-username" id="profUsername">@—</p>
+        <div class="prof-badges">
+          <span class="prof-badge prof-badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+          <span class="prof-badge prof-badge-member" id="profBadgePlan">Free</span>
+        </div>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="prof-quick-stats">
+        <div class="prof-stat-item">
+          <div class="prof-stat-val" id="profSince">—</div>
+          <div class="prof-stat-lbl">Member since</div>
+        </div>
+        <div class="prof-stat-divider"></div>
+        <div class="prof-stat-item">
+          <div class="prof-stat-val" id="profPlanStat">—</div>
+          <div class="prof-stat-lbl">Current plan</div>
+        </div>
+        <div class="prof-stat-divider"></div>
+        <div class="prof-stat-item">
+          <div class="prof-stat-val" id="profStatus">Active</div>
+          <div class="prof-stat-lbl">Status</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="prof-tabs">
+      <button class="prof-tab active" onclick="switchProfTab('overview',this)"><i class="fa-solid fa-user"></i> Overview</button>
+      <button class="prof-tab" onclick="switchProfTab('settings',this)"><i class="fa-solid fa-gear"></i> Settings</button>
+      <button class="prof-tab prof-tab-danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+    </div>
+
+    <!-- Overview tab -->
+    <div class="prof-section" id="tabOverview">
+      <div class="prof-cards-grid">
+        <div class="prof-info-card">
+          <div class="prof-info-card-icon" style="background:rgba(91,110,245,.12);color:#7b8fff"><i class="fa-solid fa-envelope"></i></div>
+          <div>
+            <div class="prof-info-card-label">Email Address</div>
+            <div class="prof-info-card-val" id="overviewEmail">—</div>
+          </div>
+        </div>
+        <div class="prof-info-card">
+          <div class="prof-info-card-icon" style="background:rgba(46,204,122,.1);color:#2ecc7a"><i class="fa-solid fa-crown"></i></div>
+          <div>
+            <div class="prof-info-card-label">Subscription</div>
+            <div class="prof-info-card-val" id="overviewPlan">—</div>
+          </div>
+        </div>
+        <div class="prof-info-card">
+          <div class="prof-info-card-icon" style="background:rgba(240,180,41,.1);color:#f0b429"><i class="fa-solid fa-calendar"></i></div>
+          <div>
+            <div class="prof-info-card-label">Joined</div>
+            <div class="prof-info-card-val" id="overviewSince">—</div>
+          </div>
+        </div>
+        <div class="prof-info-card">
+          <div class="prof-info-card-icon" style="background:rgba(168,85,247,.1);color:#a855f7"><i class="fa-solid fa-key"></i></div>
+          <div>
+            <div class="prof-info-card-label">License Key</div>
+            <div class="prof-info-card-val" id="overviewKey" style="font-family:monospace;font-size:.8rem">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio section -->
+      <div class="prof-bio-card">
+        <div class="prof-bio-header">
+          <span><i class="fa-solid fa-quote-left"></i> Bio</span>
+          <button class="prof-bio-edit-btn" onclick="toggleBioEdit()"><i class="fa-solid fa-pen"></i> Edit</button>
+        </div>
+        <div id="bioDisplay">
+          <p class="prof-bio-text" id="profBioText">No bio set. Tell the world about yourself!</p>
+        </div>
+        <div id="bioEditWrap" style="display:none">
+          <textarea class="prof-bio-input" id="bioInput" maxlength="200" placeholder="Write something about yourself…"></textarea>
+          <div class="prof-bio-actions">
+            <span class="prof-bio-count" id="bioCount">0/200</span>
+            <button class="prof-save-btn" onclick="saveBio()"><i class="fa-solid fa-check"></i> Save</button>
+            <button class="prof-cancel-btn" onclick="cancelBioEdit()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings tab -->
+    <div class="prof-section" id="tabSettings" style="display:none">
+
+      <!-- Profile settings -->
+      <div class="settings-group">
+        <div class="settings-group-header">
+          <i class="fa-solid fa-user-pen"></i>
+          <div>
+            <h3>Profile Information</h3>
+            <p>Update your public display name and bio</p>
+          </div>
+        </div>
+        <div class="settings-row">
+          <label class="settings-label">Display Name</label>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="settingsDisplayName" type="text" maxlength="30" placeholder="Your display name">
+            <button class="settings-save-btn" onclick="saveSettingsField('displayName')">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account settings -->
+      <div class="settings-group">
+        <div class="settings-group-header">
+          <i class="fa-solid fa-shield-halved"></i>
+          <div>
+            <h3>Account & Security</h3>
+            <p>Manage your login credentials</p>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-label">Username</label>
+          <div class="settings-input-wrap">
+            <div class="settings-input-icon-wrap">
+              <i class="fa-solid fa-at"></i>
+              <input class="settings-input" id="settingsUsername" type="text" placeholder="New username">
+            </div>
+            <button class="settings-save-btn" onclick="saveSettingsField('username')">Save</button>
+          </div>
+          <p class="settings-hint" id="usernameHint">Only letters, numbers, and underscores. Min 3 characters.</p>
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-label">Email Address</label>
+          <div class="settings-input-wrap">
+            <div class="settings-input-icon-wrap">
+              <i class="fa-solid fa-envelope"></i>
+              <input class="settings-input" id="settingsEmail" type="email" placeholder="New email address">
+            </div>
+            <button class="settings-save-btn" onclick="saveSettingsField('email')">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password settings -->
+      <div class="settings-group">
+        <div class="settings-group-header">
+          <i class="fa-solid fa-lock"></i>
+          <div>
+            <h3>Change Password</h3>
+            <p>Update your account password</p>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <label class="settings-label">Current Password</label>
+          <div class="settings-input-wrap">
+            <div class="settings-input-icon-wrap">
+              <i class="fa-solid fa-lock"></i>
+              <input class="settings-input" id="currentPass" type="password" placeholder="Enter current password">
+            </div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <label class="settings-label">New Password</label>
+          <div class="settings-input-wrap">
+            <div class="settings-input-icon-wrap">
+              <i class="fa-solid fa-key"></i>
+              <input class="settings-input" id="newPass" type="password" placeholder="Enter new password" oninput="checkStrength2(this.value)">
+            </div>
+          </div>
+          <div class="pw-strength-wrap" style="margin-top:.5rem">
+            <div class="pw-bars">
+              <div class="pw-bar" id="pwBar1b"></div>
+              <div class="pw-bar" id="pwBar2b"></div>
+              <div class="pw-bar" id="pwBar3b"></div>
+              <div class="pw-bar" id="pwBar4b"></div>
+            </div>
+            <span class="pw-label" id="pwLabel2"></span>
+          </div>
+        </div>
+        <div class="settings-row">
+          <label class="settings-label">Confirm New Password</label>
+          <div class="settings-input-wrap">
+            <div class="settings-input-icon-wrap">
+              <i class="fa-solid fa-key"></i>
+              <input class="settings-input" id="confirmPass" type="password" placeholder="Repeat new password">
+            </div>
+            <button class="settings-save-btn" onclick="saveSettingsField('password')">Update</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danger zone -->
+      <div class="settings-group settings-danger">
+        <div class="settings-group-header">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div>
+            <h3>Danger Zone</h3>
+            <p>Irreversible and destructive actions</p>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="danger-action">
+            <div>
+              <div class="danger-action-title">Sign out of all devices</div>
+              <div class="danger-action-desc">Clear your session and sign out everywhere</div>
+            </div>
+            <button class="settings-danger-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div class="danger-action">
+            <div>
+              <div class="danger-action-title">Clear local data</div>
+              <div class="danger-action-desc">Remove all locally stored account data</div>
+            </div>
+            <button class="settings-danger-btn settings-danger-btn-red" onclick="clearLocalData()"><i class="fa-solid fa-trash"></i> Clear Data</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tabSettings -->
+  </div><!-- /prof-container -->
+</div>
+
+<footer class="site-footer" id="siteFooter">
+  <span class="footer-text"><strong>Overlord</strong></span>
+  <div class="footer-dot"></div>
+  <span class="footer-text">&copy; 2026 All rights reserved.</span>
+</footer>
+
+<script src="login.js"></script>
+</body>
+</html>
