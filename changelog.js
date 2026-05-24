@@ -7,77 +7,46 @@ const changelogData = {
       date: 'March 07, 2026',
       badge: 'release',
       changes: [
-        { type: 'added', text: 'New Function:tableunfreeze' },
-        { type: 'added', text: 'New Function:maketablefrozen' },
-        { type: 'added', text: 'New Function:clonetable' },
-        { type: 'added', text: 'New Function:clonelclosure' },
-        { type: 'added', text: 'New Function:cloneexecutorclosure' },
-        { type: 'added', text: 'New Function:getscriptfromthread' },
-        { type: 'added', text: 'New Function:cloneclosure' },
-        { type: 'added', text: 'New Function:gethwid' },
-        { type: 'added', text: 'New Function:ishooked' },
-        { type: 'added', text: 'New Function:getmetamethodinfo' },
-        { type: 'added', text: 'New Function:getmetamethod' },
-	{ type: 'added', text: 'New Function:getrawmeta' },
-	{ type: 'added', text: 'New Function:metasearcher' },
-	{ type: 'added', text: 'New Function:deeprbxsearcher' },
-	{ type: 'added', text: 'Fully rewrote drawing lib' },
-	{ type: 'added', text: 'New Function: cache.validate' },
-	{ type: 'added', text: 'new function: tableget' },
-	{ type: 'added', text: 'Added key checking into module' },
-        { type: 'improved', text: 'Improved gethiddenproperty' },
-        { type: 'improved', text: 'Improved cache.iscached' },
-        { type: 'improved', text: 'Improved cache.replace' },
-	{ type: 'improved', text: 'Improved getcallbackvalue' },
-	{ type: 'improved', text: 'Improved Websocket Outputs plaintext, binary' },
-	{ type: 'improved', text: 'Improved getscriptclosure' },
-	{ type: 'improved', text: 'Improved getrunningscripts' },
-	{ type: 'improved', text: 'MASSIVE improvements to hookfunction' },
-	{ type: 'improved', text: 'Improved Restorefunction' },
-	{ type: 'improved', text: 'Improved cache.invalidate badgeservice' },
-        { type: 'fixed', text: 'Fixed Websocket Crashing' },
-	{ type: 'fixed', text: 'Fixed cache.invalidate c stack overflow' }
+        { type: 'added', text: 'Coming Soon' },
+	{ type: 'added', text: 'Coming Soon' },
+        { type: 'improved', text: 'Coming Soon' },
+	{ type: 'improved', text: 'Coming Soon' },
+        { type: 'fixed', text: 'Coming Soon' },
+	{ type: 'fixed', text: 'Coming Soon' }
       ]
     }
   ],
   android: [
     {
       version: '0.5.2',
-      date: 'March 10, 2026',
+      date: 'None',
       badge: 'patch',
       changes: [
-        { type: 'improved', text: 'Mobile app stability on Android 14+' },
-        { type: 'fixed', text: 'Battery drain issues during script execution' },
-        { type: 'added', text: 'Gesture controls for script management' }
+        { type: 'improved', text: 'Coming Soon' },
+        { type: 'fixed', text: 'Coming Soon' },
+        { type: 'added', text: 'Coming Soon' }
       ]
     }
   ],
   spoofer: [
     {
       version: '1.0.1',
-      date: 'March 28, 2026',
+      date: 'None',
       badge: 'release',
       changes: [
-        { type: 'fixed', text: 'Driver BSOD' },
-        { type: 'added', text: 'Hypervisor bypass' },
-        { type: 'added', text: 'Firmware spoof' },
-        { type: 'added', text: 'TPM spoof' },
-        { type: 'improved', text: 'HWID spoof' },
-        { type: 'added', text: 'MAC spoof' },
-        { type: 'added', text: 'ML detection bypass' },
-        { type: 'added', text: 'Memory spoof' }
+        { type: 'fixed', text: 'Coming Soon' },
+        { type: 'added', text: 'Coming Soon' },
+        { type: 'improved', text: 'Coming Soon' },
       ]
     }
   ],
   ios: [
     {
       version: 'Coming Soon',
-      date: 'Q3 2026',
+      date: 'None',
       badge: 'release',
       changes: [
-        { type: 'added', text: 'iOS support in development' },
-        { type: 'added', text: 'Expected release in Summer 2026' },
-        { type: 'added', text: 'Will include full feature parity with other versions' }
+        { type: 'added', text: 'Coming Soon' },
       ]
     }
   ]
