@@ -3,8 +3,8 @@ let platformStatus = {};
 const changelogData = {
   windows: [
     {
-      version: '1.2.5',
-      date: 'March 07, 2026',
+      version: 'Coming Soon',
+      date: 'None',
       badge: 'release',
       changes: [
         { type: 'added', text: 'Coming Soon' },
@@ -18,7 +18,7 @@ const changelogData = {
   ],
   android: [
     {
-      version: '0.5.2',
+      version: 'Coming Soon',
       date: 'None',
       badge: 'patch',
       changes: [
@@ -30,7 +30,7 @@ const changelogData = {
   ],
   spoofer: [
     {
-      version: '1.0.1',
+      version: 'Coming Soon',
       date: 'None',
       badge: 'release',
       changes: [
