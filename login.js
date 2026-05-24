@@ -59,19 +59,18 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // ── Config ────────────────────────────────────────────────
-// Sau khi deploy Cloudflare Worker, thay URL bên dưới:
-const WORKER_URL  = 'https://overlord-auth.YOUR_NAME.workers.dev';
+const WORKER_URL  = 'https://overlord-auth.khoib1110.workers.dev';
 const APP_TOKEN   = 'OVERLORD_SECRET_2026';
 const STORAGE_KEY = 'overlord_users';
 const SESSION_KEY = 'overlord_session';
 
-// ── SHA-256 (Web Crypto API) ──────────────────────────────
+// ── SHA-256 ───────────────────────────────────────────────
 async function sha256(text) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-// ── Worker API ────────────────────────────────────────────
+// ── Cloudflare Worker API ─────────────────────────────────
 async function apiValidate(username, password) {
   try {
     const res = await fetch(WORKER_URL + '/validate', {
@@ -80,9 +79,7 @@ async function apiValidate(username, password) {
       body: JSON.stringify({ username, password }),
     });
     return await res.json();
-  } catch {
-    return { valid: false, offline: true };
-  }
+  } catch { return { valid: false, offline: true }; }
 }
 
 async function apiValidateKey(key) {
@@ -93,9 +90,7 @@ async function apiValidateKey(key) {
       body: JSON.stringify({ key }),
     });
     return await res.json();
-  } catch {
-    return { valid: false, offline: true };
-  }
+  } catch { return { valid: false, offline: true }; }
 }
 
 // ── Local users (đăng ký qua website) ────────────────────
@@ -103,14 +98,9 @@ function getLocalUsers() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
   catch { return []; }
 }
-function saveLocalUsers(users) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-}
-function getSession() {
-  try { return JSON.parse(localStorage.getItem(SESSION_KEY)); }
-  catch { return null; }
-}
-function saveSession(user) { localStorage.setItem(SESSION_KEY, JSON.stringify(user)); }
+function saveLocalUsers(u) { localStorage.setItem(STORAGE_KEY, JSON.stringify(u)); }
+function getSession()      { try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch { return null; } }
+function saveSession(u)    { localStorage.setItem(SESSION_KEY, JSON.stringify(u)); }
 function clearSession()    { localStorage.removeItem(SESSION_KEY); }
 
 // ── Toast ────────────────────────────────────────────────
@@ -228,17 +218,12 @@ async function handleLogin(e) {
 
   setLoading('loginBtn', true);
 
-  // ── 1. Try Cloudflare Worker API (server-side) ───────────
+  // 1. Gọi Cloudflare Worker API
   const result = await apiValidate(userVal, passVal);
 
   if (result.valid) {
-    const session = {
-      username: result.username,
-      email:    result.email,
-      since:    result.since,
-      plan:     result.plan || 'Free',
-      key:      result.key  || '',
-    };
+    const session = { username: result.username, email: result.email,
+                      since: result.since, plan: result.plan || 'Free', key: result.key || '' };
     saveSession(session);
     toast(`Welcome back, ${session.username}! 👑`, 'success');
     setLoading('loginBtn', false);
@@ -246,18 +231,17 @@ async function handleLogin(e) {
     return;
   }
 
-  // ── 2. Offline fallback — check local registered accounts ─
+  // 2. Offline fallback — kiểm tra tài khoản đăng ký local
   if (result.offline) {
     const localUsers = getLocalUsers();
     const hash = await sha256(passVal);
     const user = localUsers.find(u =>
       (u.username.toLowerCase() === userVal.toLowerCase() ||
-       (u.email || '').toLowerCase() === userVal.toLowerCase()) &&
+       (u.email||'').toLowerCase() === userVal.toLowerCase()) &&
       (u.passwordHash === hash || u.password === passVal)
     );
-
     if (user) {
-      const session = { username: user.username, email: user.email, since: user.since, plan: user.plan || 'Free' };
+      const session = { username: user.username, email: user.email, since: user.since, plan: user.plan||'Free' };
       saveSession(session);
       toast(`Welcome back, ${user.username}! 👑 (offline)`, 'success');
       setLoading('loginBtn', false);
@@ -266,7 +250,7 @@ async function handleLogin(e) {
     }
   }
 
-  // ── 3. Failed ────────────────────────────────────────────
+  // 3. Thất bại
   setLoading('loginBtn', false);
   setError('loginUser', 'loginUserErr', result.error || 'Invalid username/email or password');
   setError('loginPass', 'loginPassErr', ' ');
@@ -322,7 +306,6 @@ async function handleRegister(e) {
     const since = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     const passHash = await sha256(pass);
     const newUser = { username, email, passwordHash: passHash, since, plan: 'Free' };
-    const users = getLocalUsers();
     users.push(newUser);
     saveLocalUsers(users);
 
@@ -376,18 +359,17 @@ function forgotPassword(e) {
 }
 
 // ── Init ──────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  // Apply hover cursor to interactive elements
+document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('.auth-tab, .auth-submit, .auth-forgot, .input-toggle, .dash-logout, .nav-links a').forEach(hoverCursor);
 
-  // Check existing session
+  // Kiểm tra session cũ
   const session = getSession();
   if (session) {
     showDashboard(session);
     return;
   }
 
-  // Auto-switch to register tab if nav Register was clicked
+  // Auto-switch tab nếu click Register từ navbar
   const pendingTab = sessionStorage.getItem('authTab');
   if (pendingTab) {
     sessionStorage.removeItem('authTab');
